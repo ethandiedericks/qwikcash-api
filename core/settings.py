@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 from os import getenv, path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -147,7 +148,10 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
-
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+}
 DJOSER = {
     "PASSWORD_RESET_CONFIRM_URL": "password-reset/{uid}/{token}",
     "ACTIVATION_URL": "activation/{uid}/{token}",
