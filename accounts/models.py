@@ -57,8 +57,8 @@ class MarketplaceUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
 
     objects = MarketplaceUserManager()
 
@@ -100,3 +100,9 @@ class MarketplaceUser(AbstractBaseUser):
                 raise ValueError("Invalid WhatApp number")
         except NumberParseException:
             raise ValueError("Invalid WhatsApp number")
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
