@@ -16,14 +16,19 @@ class MarketplaceUserManager(BaseUserManager):
             raise ValueError("Users must have an email address")
         if not phone_number:
             raise ValueError("Users must have a phone number")
+
+        email = self.normalize_email(email)
+        email = email.lower()
+
         user = self.model(
-            email=self.normalize_email(email),
+            email=email,
             phone_number=phone_number,
             first_name=first_name,
             last_name=last_name,
         )
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
     def create_superuser(
