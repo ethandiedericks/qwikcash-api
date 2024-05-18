@@ -30,13 +30,11 @@ class MarketplaceUserAdmin(UserAdmin):
                     "is_admin",
                     "is_staff",
                     "is_superuser",
-                    "groups",
-                    "user_permissions",
                 )
             },
         ),
         ("Personal info", {"fields": ("profile_picture", "whatsapp_number")}),
-        ("Important dates", {"fields": ("created_at", "updated_at")}),
+        ("Important dates", {"fields": ("last_login",)}),
     )
 
 
