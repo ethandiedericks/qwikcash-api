@@ -15,7 +15,6 @@ class MarketplaceUserTests(TestCase):
         self.user_data = {
             "email": "testuser@example.com",
             "phone_number": "+27123456789",
-            "whatsapp_number": "+27123456789",
             "first_name": "Test",
             "last_name": "User",
             "password": "testpassword123",
