@@ -95,9 +95,9 @@ class MarketplaceUser(AbstractBaseUser):
             raise ValueError("Invalid phone number")
 
         try:
-            parsed_number = parse(self.whatsapp_number, "ZA")
-            if not is_valid_number(parsed_number):
-                raise ValueError("Invalid WhatApp number")
+            parsed_whatsapp_number = parse(self.whatsapp_number, "ZA")
+            if not is_valid_number(parsed_whatsapp_number):
+                raise ValueError("Invalid WhatsApp number")
         except NumberParseException:
             raise ValueError("Invalid WhatsApp number")
 
