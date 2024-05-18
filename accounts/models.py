@@ -94,12 +94,13 @@ class MarketplaceUser(AbstractBaseUser):
         except NumberParseException:
             raise ValueError("Invalid phone number")
 
-        try:
-            parsed_whatsapp_number = parse(self.whatsapp_number, "ZA")
-            if not is_valid_number(parsed_whatsapp_number):
+        if self.whatsapp_number:
+            try:
+                parsed_whatsapp_number = parse(self.whatsapp_number, "ZA")
+                if not is_valid_number(parsed_whatsapp_number):
+                    raise ValueError("Invalid WhatsApp number")
+            except NumberParseException:
                 raise ValueError("Invalid WhatsApp number")
-        except NumberParseException:
-            raise ValueError("Invalid WhatsApp number")
 
     def has_perm(self, perm, obj=None):
         return True
