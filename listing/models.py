@@ -16,6 +16,9 @@ class Category(models.TextChoices):
     SERVICES = "SV", "Services"
     OTHER = "OT", "Other"
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
 
 class Condition(models.TextChoices):
     NEW = "NW", "New"
@@ -27,12 +30,18 @@ class ListingStatus(models.TextChoices):
     AVAILABLE = "AV", "Available"
     SOLD = "SL", "Sold"
 
+    class Meta:
+        verbose_name_plural = "Listing Statuses"
+
 
 class Address(models.Model):
     street_address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
+
+    class Meta:
+        verbose_name_plural = "Addresses"
 
     def __str__(self):
         return f"{self.street_address}, {self.city}, {self.state} {self.zip_code}"
@@ -123,11 +132,10 @@ class VehicleListing(BaseListingModel):
 
 class PropertyListing(BaseListingModel):
     type = models.CharField(max_length=2, choices=PropertyType.choices)
-    area = models.DecimalField(max_digits=10, decimal_places=2)
     num_bedrooms = models.PositiveIntegerField()
     num_bathrooms = models.PositiveIntegerField()
     square_fts = models.PositiveIntegerField(blank=True, null=True)
     date_available = models.DateTimeField(blank=True, null=True)
     parking_type = models.CharField(max_length=2, choices=ParkingType.choices)
-    cat_friendly = models.BooleanField(blank=True, null=True)
-    dog_friendly = models.BooleanField(blank=True, null=True)
+    cat_friendly = models.BooleanField(default=False)
+    dog_friendly = models.BooleanField(default=False)
