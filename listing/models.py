@@ -126,7 +126,7 @@ class PropertyListing(BaseListingModel):
     area = models.DecimalField(max_digits=10, decimal_places=2)
     num_bedrooms = models.PositiveIntegerField()
     num_bathrooms = models.PositiveIntegerField()
-    square_fts = models.PositiveIntegerField(max_length=6, blank=True, null=True)
+    square_fts = models.PositiveIntegerField(blank=True, null=True)
     date_available = models.DateTimeField(blank=True, null=True)
     parking_type = models.CharField(max_length=2, choices=ParkingType.choices)
     cat_friendly = models.BooleanField(blank=True, null=True)
