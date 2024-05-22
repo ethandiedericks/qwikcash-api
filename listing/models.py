@@ -1,36 +1,65 @@
 from django.db import models
+from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
+
+
+class Category(models.TextChoices):
+    ELECTRONICS = "EL", "Electronics"
+    FURNITURE = "FU", "Furniture"
+    CLOTHING = "CL", "Clothing"
+    VEHICLES = "VE", "Vehicles"
+    PROPERTIES = "PR", "Properties"
+    BOOKS = "BK", "Books"
+    SPORTS_AND_OUTDOORS = "SO", "Sports & Outdoors"
+    TOYS_AND_GAMES = "TG", "Toys & Games"
+    HOME_AND_GARDEN = "HG", "Home & Garden"
+    SERVICES = "SV", "Services"
+    OTHER = "OT", "Other"
+
+
+class Condition(models.TextChoices):
+    NEW = "NW", "New"
+    USED = "US", "Used"
+    REFURBISHED = "RF", "Refurbished"
+
+
+class ListingStatus(models.TextChoices):
+    AVAILABLE = "AV", "Available"
+    SOLD = "SL", "Sold"
+
+
+class Address(models.Model):
+    street_address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.street_address}, {self.city}, {self.state} {self.zip_code}"
 
 
 class Photo(models.Model):
     image = models.ImageField(upload_to="listing_photos")
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
-class Condition(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
 class BaseListingModel(models.Model):
+    title = models.CharField(max_length=500)
     photos = models.ManyToManyField(
         Photo, related_name="%(app_label)s_%(class)s_related"
     )
     price = models.PositiveIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(999999999)]
     )
-    phone_number = models.CharField(max_length=20)
-    whatsapp_number = models.CharField(max_length=20)
     description = models.TextField(blank=True, null=True)
-    location = models.CharField(max_length=100, blank=True, null=True)
+    status = models.CharField(
+        max_length=2, choices=ListingStatus.choices, default=ListingStatus.AVAILABLE
+    )
+    location = models.ForeignKey(
+        Address, on_delete=models.PROTECT, null=True, blank=True
+    )
+    views = models.PositiveIntegerField(default=0)
+    favorites = models.PositiveIntegerField(default=0)
+    shares = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -39,21 +68,5 @@ class BaseListingModel(models.Model):
 
 
 class ItemListing(BaseListingModel):
-    title = models.CharField(max_length=200)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    condition = models.ForeignKey(Condition, on_delete=models.PROTECT)
-
-
-class VehicleListing(BaseListingModel):
-    title = models.CharField(max_length=200)
-    make = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-    year = models.PositiveIntegerField()
-    mileage = models.PositiveIntegerField()
-
-
-class PropertyListing(BaseListingModel):
-    title = models.CharField(max_length=200)
-    area = models.DecimalField(max_digits=10, decimal_places=2)
-    num_bedrooms = models.PositiveIntegerField()
-    num_bathrooms = models.PositiveIntegerField()
+    category = models.CharField(max_length=2, choices=Category.choices)
+    condition = models.CharField(max_length=2, choices=Condition.choices)
