@@ -59,6 +59,26 @@ class VehicleYear(models.IntegerChoices):
         return [(year, str(year)) for year in VEHICLE_YEAR_RANGE]
 
 
+class PropertyType(models.TextChoices):
+    APARTMENT = "AP", "Apartment"
+    HOUSE = "HO", "House"
+    CONDO = "CO", "Condo"
+    TOWNHOUSE = "TH", "Townhouse"
+    VACATION_RENTAL = "VR", "Vacation Rental"
+    LOT_OR_LAND = "LL", "Lot or Land"
+    OFFICE = "OF", "Office"
+    COMMERCIAL = "CM", "Commercial"
+    OTHER = "OT", "Other"
+
+
+class ParkingType(models.TextChoices):
+    GARAGE = "GA", "Garage"
+    STREET = "ST", "Street"
+    PRIVATE_LOT = "PL", "Private Lot"
+    DRIVEWAY = "DR", "Driveway"
+    CARPORT = "CP", "Carport"
+
+
 class Photo(models.Model):
     image = models.ImageField(upload_to="listing_photos")
 
@@ -99,3 +119,17 @@ class VehicleListing(BaseListingModel):
     model = models.CharField(max_length=100)
     year = models.IntegerField(choices=VehicleYear.choices)
     mileage = models.PositiveIntegerField()
+
+
+class PropertyListing(BaseListingModel):
+    type = models.CharField(max_length=2, choices=PropertyType.choices)
+    area = models.DecimalField(max_digits=10, decimal_places=2)
+    num_bedrooms = models.PositiveIntegerField()
+    num_bathrooms = models.PositiveIntegerField()
+    square_fts = models.PositiveIntegerField(
+        max_digits=6, decimal_places=2, blank=True, null=True
+    )
+    date_available = models.DateTimeField(blank=True, null=True)
+    parking_type = models.CharField(max_length=2, choices=ParkingType.choices)
+    cat_friendly = models.BooleanField(blank=True, null=True)
+    dog_friendly = models.BooleanField(blank=True, null=True)
