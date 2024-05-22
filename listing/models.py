@@ -38,6 +38,27 @@ class Address(models.Model):
         return f"{self.street_address}, {self.city}, {self.state} {self.zip_code}"
 
 
+class VehicleType(models.TextChoices):
+    CAR = "CR", "Car"
+    TRUCK = "TR", "Truck"
+    MOTORCYCLE = "MC", "Motorcycle"
+    SUV = "SV", "SUV"
+    VAN = "VN", "Van"
+    RV = "RV", "RV"
+    BOAT = "BT", "Boat"
+    OTHER = "OT", "Other"
+
+
+current_year = timezone.now().year
+VEHICLE_YEAR_RANGE = range(current_year - 50, current_year + 1)
+
+
+class VehicleYear(models.IntegerChoices):
+    @classmethod
+    def choices(cls):
+        return [(year, str(year)) for year in VEHICLE_YEAR_RANGE]
+
+
 class Photo(models.Model):
     image = models.ImageField(upload_to="listing_photos")
 
@@ -70,3 +91,11 @@ class BaseListingModel(models.Model):
 class ItemListing(BaseListingModel):
     category = models.CharField(max_length=2, choices=Category.choices)
     condition = models.CharField(max_length=2, choices=Condition.choices)
+
+
+class VehicleListing(BaseListingModel):
+    type = models.CharField(max_length=2, choices=VehicleType.choices)
+    make = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+    year = models.IntegerField(choices=VehicleYear.choices)
+    mileage = models.PositiveIntegerField()
