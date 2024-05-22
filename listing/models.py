@@ -16,9 +16,6 @@ class Category(models.TextChoices):
     SERVICES = "SV", "Services"
     OTHER = "OT", "Other"
 
-    class Meta:
-        verbose_name_plural = "Categories"
-
 
 class Condition(models.TextChoices):
     NEW = "NW", "New"
@@ -29,9 +26,6 @@ class Condition(models.TextChoices):
 class ListingStatus(models.TextChoices):
     AVAILABLE = "AV", "Available"
     SOLD = "SL", "Sold"
-
-    class Meta:
-        verbose_name_plural = "Listing Statuses"
 
 
 class Address(models.Model):
