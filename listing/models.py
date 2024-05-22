@@ -99,7 +99,11 @@ class BaseListingModel(models.Model):
         max_length=2, choices=ListingStatus.choices, default=ListingStatus.AVAILABLE
     )
     location = models.ForeignKey(
-        Address, on_delete=models.PROTECT, null=True, blank=True
+        Address,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="%(app_label)s_%(class)s_listings",
     )
     views = models.PositiveIntegerField(default=0)
     favorites = models.PositiveIntegerField(default=0)
