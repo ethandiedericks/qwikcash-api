@@ -28,14 +28,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # local apps
-    "accounts.apps.AccountsConfig",
-    "listing.apps.ListingConfig",
     # third-party apps
     "corsheaders",
     "rest_framework",
     "djoser",
     "sendgrid",
+    # local apps
+    "accounts.apps.AccountsConfig",
+    "listing.apps.ListingConfig",
 ]
 
 AUTH_USER_MODEL = "accounts.MarketplaceUser"
