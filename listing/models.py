@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Category(models.TextChoices):
@@ -87,6 +90,7 @@ class Photo(models.Model):
 
 
 class BaseListingModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     title = models.CharField(max_length=500)
     photos = models.ManyToManyField(
         Photo, related_name="%(app_label)s_%(class)s_related"
@@ -113,6 +117,9 @@ class BaseListingModel(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class ItemListing(BaseListingModel):
