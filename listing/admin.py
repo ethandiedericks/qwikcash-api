@@ -1,5 +1,3 @@
-# listing/admin.py
-
 from django.contrib import admin
 from .models import ItemListing, VehicleListing, PropertyListing, Photo, Address
 
