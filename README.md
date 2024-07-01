@@ -48,8 +48,6 @@ This is a Django-based API for a marketplace application. It provides endpoints 
 - `/api/vehicles/`: List all vehicle listings
 - `/api/properties/`: List all property listings
 
-[Add more endpoints as needed]
-
 ## Authentication
 
 This API uses JWT for authentication. To access protected endpoints, include the JWT token in the Authorization header of your requests:
